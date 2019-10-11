@@ -13,6 +13,7 @@ import {
   Scene,
   Vector3,
   WebGLRenderer,
+  Points
 } from "three";
 import THREE = require("three");
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
@@ -26,77 +27,91 @@ export class App {
     45,
     innerWidth / innerHeight,
     0.1,
-    10000,
+    10000
   );
   private readonly renderer = new WebGLRenderer({
     antialias: true,
-    canvas: document.getElementById("main-canvas") as HTMLCanvasElement,
+    canvas: document.getElementById("main-canvas") as HTMLCanvasElement
   });
+  // private particles: Points;
 
   private player: Sphere;
-  private playerDefenseTop: Brick;
-  private playerDefenseBottom: Brick;
-  private playerDefenseLeft: Brick;
-  private playerDefenseRight: Brick;
+  private playerLeft: Brick;
+  private playerRight: Brick;
 
-  private opponent: Sphere;
-  private opponentDefenseTop: Brick;
-  private opponentDefenseBottom: Brick;
-  private opponentDefenseLeft: Brick;
-  private opponentDefenseRight: Brick;
+  private gateH: Brick;
+  private gateX: Brick;
 
   constructor() {
+    // this.scene.fog = new THREE.FogExp2( 0x000000, 0.003 );
+
     // Create player
     const brickSize = 8;
     this.player = new Sphere(10, new Color("rgb(255,0,255)"));
-    this.playerDefenseTop = new Brick(brickSize, new Color("rgb(255,0,0)"));
-    this.playerDefenseBottom = new Brick(brickSize, new Color("rgb(255,0,0)"));
-    this.playerDefenseRight = new Brick(brickSize, new Color("rgb(255,0,0)"));
-    this.playerDefenseLeft = new Brick(brickSize, new Color("rgb(255,0,0)"));
+    this.playerLeft = new Brick(brickSize, new Color("rgb(255,0,0)"));
+    this.playerRight = new Brick(brickSize, new Color("rgb(255,0,0)"));
     // Position opponent
-    const playerPos = 50;
+    const playerPos = 0;
     this.player.position.set(playerPos, 0, 0);
-    this.playerDefenseTop.position.set(playerPos, 10, 0);
-    this.playerDefenseBottom.position.set(playerPos, -10, 0);
-    this.playerDefenseLeft.position.set(playerPos, 0, 10);
-    this.playerDefenseRight.position.set(playerPos, 0, -10);
+    this.playerLeft.position.set(playerPos, 0, 10);
+    this.playerRight.position.set(playerPos, 0, -10);
     // Add to scene
     this.scene.add(this.player);
-    this.scene.add(this.playerDefenseTop);
-    this.scene.add(this.playerDefenseBottom);
-    this.scene.add(this.playerDefenseLeft);
-    this.scene.add(this.playerDefenseRight);
-
-    // Opponent
-    this.opponent = new Sphere(10, new Color("rgb(255,0,255)"));
-    this.opponentDefenseTop = new Brick(brickSize, new Color("rgb(255,0,0)"));
-    this.opponentDefenseBottom = new Brick(
-      brickSize,
-      new Color("rgb(255,0,0)"),
-    );
-    this.opponentDefenseRight = new Brick(brickSize, new Color("rgb(255,0,0)"));
-    this.opponentDefenseLeft = new Brick(brickSize, new Color("rgb(255,0,0)"));
-    // Position opponent
-    const opponentPos = -50;
-    this.opponent.position.set(opponentPos, 0, 0);
-    this.opponentDefenseTop.position.set(opponentPos, 10, 0);
-    this.opponentDefenseTop.position.set(opponentPos, 10, 0);
-    this.opponentDefenseBottom.position.set(opponentPos, -10, 0);
-    this.opponentDefenseLeft.position.set(opponentPos, 0, 10);
-    this.opponentDefenseRight.position.set(opponentPos, 0, -10);
-    // Add to scene
-    this.scene.add(this.opponent);
-    this.scene.add(this.opponentDefenseTop);
-    this.scene.add(this.opponentDefenseBottom);
-    this.scene.add(this.opponentDefenseLeft);
-    this.scene.add(this.opponentDefenseRight);
+    this.scene.add(this.playerLeft);
+    this.scene.add(this.playerRight);
 
     // Add torus for line direction
-    const xTorus = new Torus(50, new Color("rgb(255,255,0)"));
-    const yTorus = new Torus(50, new Color("rgb(255,255,0)"));
+    const xTorus = new Torus(25, new Color("rgb(255,255,0)"));
     this.scene.add(xTorus);
-    yTorus.rotateX(0.5 * Math.PI);
-    this.scene.add(yTorus);
+
+    // Path indicator
+    const material = new THREE.LineBasicMaterial({ color: 0x0000ff });
+    const geometryL = new THREE.Geometry();
+    geometryL.vertices.push(new THREE.Vector3(0, 0, 20));
+    geometryL.vertices.push(new THREE.Vector3(-300, 0, 20));
+    const lineL = new THREE.Line(geometryL, material);
+    this.scene.add(lineL);
+
+    const geometryR = new THREE.Geometry();
+    geometryR.vertices.push(new THREE.Vector3(0, 0, -20));
+    geometryR.vertices.push(new THREE.Vector3(-300, 0, -20));
+    // geometry.vertices.push(new THREE.Vector3(10, 0, 0));
+    const lineR = new THREE.Line(geometryR, material);
+    this.scene.add(lineR);
+
+    // Gate block
+    this.gateH = new Brick(brickSize, new Color("rgb(0,255,0)"));
+    this.gateX = new Brick(brickSize, new Color("rgb(0,255,255)"));
+    // Position
+    this.gateH.position.set(-300, 0, 20);
+    this.gateX.position.set(-300, 0, -20);
+    // Add to scene
+    this.scene.add(this.gateH);
+    this.scene.add(this.gateX);
+
+
+    // Particle system
+    // const vertices = [];
+    // for (let i = 0; i < 1000; i++) {
+    //   const x = Math.random() * 2000 - 1000;
+    //   const y = Math.random() * 2000 - 1000;
+    //   const z = Math.random() * 2000 - 1000;
+    //   vertices.push(x, y, z);
+    // }
+    // const geometry = new THREE.BufferGeometry();
+    // geometry.addAttribute(
+    //   "position",
+    //   new THREE.Float32BufferAttribute(vertices, 3)
+    // );
+    // const materials = new THREE.PointsMaterial({
+    //   blending: THREE.AdditiveBlending,
+    //   depthTest: false,
+    //   size: 5,
+    //   transparent: true,
+    // });
+    // materials.color.setHSL(1.0, 0.2, 0.5);
+    // this.particles = new THREE.Points(geometry, materials);
+    // this.scene.add(this.particles);
 
     // Main camera and renderer
     this.camera.position.set(100, 100, 100);
@@ -140,6 +155,9 @@ export class App {
     requestAnimationFrame(() => this.render());
 
     this.adjustCanvasSize();
+
+    this.gateH.translateX(1);
+    this.gateX.translateX(1);
 
     // Animation opponent
     // this.opponentDefenseTop.rotateZ(0.02);
