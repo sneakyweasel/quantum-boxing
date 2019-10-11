@@ -6,7 +6,7 @@
   "rules": {
     "quotemark": [
       true,
-      "single"
+      "double"
     ],
     "no-unused-expression": false
   }

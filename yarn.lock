@@ -2302,6 +2302,11 @@ opn@^5.5.0:
   dependencies:
     is-wsl "^1.1.0"
 
+orbit-controls-es6@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/orbit-controls-es6/-/orbit-controls-es6-2.0.1.tgz#43ee3d470007364106aaae337edbe4a74eedc041"
+  integrity sha512-Np+XREwlIFl7tSpMSqHuJ20ySonCwCJO+vxyMGmijCJv5+I1SqGQMNfn2fwJC3TVvakXRIxa4ayxJdzeF5dPAA==
+
 original@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/original/-/original-1.0.2.tgz#e442a61cffe1c5fd20a65f3261c26663b303f25f"

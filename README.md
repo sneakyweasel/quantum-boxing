@@ -1,4 +1,6 @@
-# TypeScript + Webpack + Three.js template
+# Holographic Quantum Boxing
+
+Because why not! Done for Qiskit Hackathon 2019 with Piotr Migdal.
 
 ## Install dependencies
 
