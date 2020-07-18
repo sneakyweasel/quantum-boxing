@@ -1878,8 +1878,9 @@ locate-path@^3.0.0:
     path-exists "^3.0.0"
 
 lodash@^4.17.11:
-  version "4.17.15"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
+  version "4.17.19"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
+  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
 
 loglevel@^1.6.3:
   version "1.6.3"
@@ -2301,11 +2302,6 @@ opn@^5.5.0:
   resolved "https://registry.yarnpkg.com/opn/-/opn-5.5.0.tgz#fc7164fab56d235904c51c3b27da6758ca3b9bfc"
   dependencies:
     is-wsl "^1.1.0"
-
-orbit-controls-es6@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.npmjs.org/orbit-controls-es6/-/orbit-controls-es6-2.0.1.tgz#43ee3d470007364106aaae337edbe4a74eedc041"
-  integrity sha512-Np+XREwlIFl7tSpMSqHuJ20ySonCwCJO+vxyMGmijCJv5+I1SqGQMNfn2fwJC3TVvakXRIxa4ayxJdzeF5dPAA==
 
 original@^1.0.0:
   version "1.0.2"
